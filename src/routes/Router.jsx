@@ -5,6 +5,7 @@ import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import AvailableFoods from "../pages/Foods/AvailableFoods";
 import ErrorPage from "../pages/ErrorPage";
+import FoodDetails from "../pages/Foods/FoodDetails";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/available-foods", element: <AvailableFoods /> },
+      {
+        path: "/foods/:id",
+        element: <FoodDetails/>,
+      },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
     ],
