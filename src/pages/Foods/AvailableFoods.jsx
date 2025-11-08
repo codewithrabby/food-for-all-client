@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const AvailableFoods = () => {
   const [foods, setFoods] = useState([]);
@@ -30,9 +31,14 @@ const AvailableFoods = () => {
             <p className="text-green-700 font-medium mb-4">
               Serves: {food.quantity} people
             </p>
-            <button className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">
+
+            {/* View Details Button */}
+            <Link
+              to={`/foods/${food._id}`}
+              className="w-full inline-block text-center bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
+            >
               View Details
-            </button>
+            </Link>
           </div>
         ))}
       </div>
