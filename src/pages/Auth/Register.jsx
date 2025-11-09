@@ -21,14 +21,19 @@ const Register = () => {
     // Password Validation section....
     const uppercaseReg = /[A-Z]/;
     const lowercaseReg = /[a-z]/;
-    if (!uppercaseReg.test(password)) return setError("Password must have an uppercase letter");
-    if (!lowercaseReg.test(password)) return setError("Password must have a lowercase letter");
-    if (password.length < 6) return setError("Password must be at least 6 characters");
+    if (!uppercaseReg.test(password))
+      return setError("Password must have an uppercase letter");
+    if (!lowercaseReg.test(password))
+      return setError("Password must have a lowercase letter");
+    if (password.length < 6)
+      return setError("Password must be at least 6 characters");
 
     try {
       await registerUser(name, email, password, photoURL);
       toast.success("Registration successful!");
-      navigate("/");
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
     } catch (err) {
       toast.error(err.message);
     }
