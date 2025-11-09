@@ -8,6 +8,8 @@ import ErrorPage from "../pages/ErrorPage";
 import FoodDetails from "../pages/Foods/FoodDetails";
 import AddFood from "../pages/Foods/AddFood";
 import PrivateRoute from "./PrivateRoute";
+import ManageMyFoods from "../pages/Foods/ManageMyFoods";
+import UpdateFood from "../pages/Foods/UpdateFood";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,6 +31,22 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AddFood />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/manage-my-foods",
+        element: (
+          <PrivateRoute>
+            <ManageMyFoods />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/update-food/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateFood />
           </PrivateRoute>
         ),
       },

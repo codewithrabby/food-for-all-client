@@ -6,6 +6,7 @@ const AddFood = () => {
   const { user } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     name: "",
+    description: "",
     image: "",
     quantity: "",
     location: "",
@@ -69,6 +70,15 @@ const AddFood = () => {
           className="w-full border p-2 rounded"
           required
         />
+        <textarea
+          name="description"
+          value={formData.description || ""}
+          onChange={handleChange}
+          placeholder="Short Description"
+          className="w-full border p-2 rounded"
+          rows="3"
+          required
+        ></textarea>
         <input
           type="text"
           name="image"
