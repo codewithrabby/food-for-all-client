@@ -7,13 +7,18 @@ const AvailableFoods = () => {
   useEffect(() => {
     fetch("http://localhost:3000/all-foods")
       .then((res) => res.json())
-      .then((data) => setFoods(data))
+      .then((data) => {
+        console.log("Fetched foods:", data);
+        setFoods(data);
+      })
       .catch((err) => console.error("Failed to fetch foods:", err));
   }, []);
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-12">
-      <h2 className="text-3xl font-bold text-center mb-8">All Available Foods</h2>
+      <h2 className="text-3xl font-bold text-center mb-8">
+        All Available Foods
+      </h2>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {foods.map((food) => (
