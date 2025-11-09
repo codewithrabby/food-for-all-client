@@ -2,20 +2,26 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const ManageMyFoods = () => {
   const { user } = useContext(AuthContext);
   const [foods, setFoods] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Fetch only foods added by logged-in user
   useEffect(() => {
     if (user?.email) {
       fetch(`http://localhost:3000/my-foods?email=${user.email}`)
         .then((res) => res.json())
         .then((data) => setFoods(data))
-        .catch((err) => console.error("Error fetching my foods:", err));
+        .catch((err) => console.error("Error fetching my foods:", err))
+        .finally(() => setLoading(false));
     }
   }, [user]);
+
+    if (loading) {
+    return <LoadingSpinner />;
+  }
 
   // Delete food
   const handleDelete = (id) => {

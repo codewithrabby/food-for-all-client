@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const AvailableFoods = () => {
   const [foods, setFoods] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("http://localhost:3000/all-foods")
@@ -11,8 +13,13 @@ const AvailableFoods = () => {
         console.log("Fetched foods:", data);
         setFoods(data);
       })
-      .catch((err) => console.error("Failed to fetch foods:", err));
+      .catch((err) => console.error("Failed to fetch foods:", err))
+      .finally(() => setLoading(false));
   }, []);
+
+  if(loading){
+    return <LoadingSpinner/>
+  }
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-12">
