@@ -91,7 +91,7 @@ const Navbar = () => {
         {/* Left: Logo */}
         <Link to="/" className="flex items-center gap-2">
           <img
-            src="https://i.ibb.co/vk7zMRV/food-logo.png"
+            src="https://i.ibb.co.com/tTbMLBxG/logo2.png"
             alt="Logo"
             className="w-10 h-10 object-cover"
           />
@@ -99,7 +99,9 @@ const Navbar = () => {
         </Link>
 
         {/* Middle: Menu Links */}
-        <ul className="hidden md:flex items-center gap-6 text-gray-700">{navLinks}</ul>
+        <ul className="hidden md:flex items-center gap-6 text-gray-700">
+          {navLinks}
+        </ul>
 
         {/* Right: User Profile / Login */}
         <div className="hidden md:flex items-center gap-4">
@@ -117,7 +119,9 @@ const Navbar = () => {
                 className="flex items-center gap-2"
               >
                 <img
-                  src={user.photoURL || "https://i.ibb.co/Zm1wZXB/default-user.png"}
+                  src={
+                    user.photoURL || "https://i.ibb.co/Zm1wZXB/default-user.png"
+                  }
                   alt="User"
                   className="w-10 h-10 rounded-full border"
                 />
@@ -168,7 +172,9 @@ const Navbar = () => {
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-3">
                 <img
-                  src={user.photoURL || "https://i.ibb.co/Zm1wZXB/default-user.png"}
+                  src={
+                    user.photoURL || "https://i.ibb.co/Zm1wZXB/default-user.png"
+                  }
                   alt="User"
                   className="w-10 h-10 rounded-full border"
                 />

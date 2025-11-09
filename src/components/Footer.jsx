@@ -10,7 +10,7 @@ const Footer = () => {
         {/* Left: Logo + Name */}
         <Link to="/" className="flex items-center gap-2">
           <img
-            src="https://i.ibb.co/vk7zMRV/food-logo.png"
+            src="https://i.ibb.co.com/tTbMLBxG/logo2.png"
             alt="Logo"
             className="w-10 h-10"
           />

@@ -21,7 +21,7 @@ const OurMission = () => {
             Join us to make a positive impact in your community.
           </p>
           <img
-            src="https://i.ibb.co/6yQsR4X/mission-image.jpg"
+            src="https://i.ibb.co.com/q3rxTSkv/mission.jpg"
             alt="Our Mission"
             className="rounded-lg shadow-md w-full"
           />

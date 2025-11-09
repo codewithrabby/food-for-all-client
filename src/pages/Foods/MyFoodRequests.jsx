@@ -17,42 +17,67 @@ const MyFoodRequests = () => {
   if (!user) return <p className="text-center mt-10">Please log in to see your requests.</p>;
 
   return (
-    <section className="max-w-6xl mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold mb-6 text-center">My Food Requests</h2>
+    <section className="max-w-6xl mx-auto px-4 py-12">
+  <h2 className="text-4xl font-extrabold mb-10 text-center text-gray-900">
+    My Food Requests
+  </h2>
 
-      {requests.length === 0 ? (
-        <p className="text-center text-gray-500">You haven't requested any food yet.</p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse border border-gray-300">
-            <thead className="bg-gray-100">
-              <tr>
-                <th>Food Name</th>
-                <th>Location</th>
-                <th>Reason</th>
-                <th>Contact</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {requests.map((req) => (
-                <tr key={req._id}>
-                  <td>{req.foodName || req.foodId}</td> 
+  {requests.length === 0 ? (
+    <p className="text-center text-gray-500 text-lg">
+      You haven't requested any food yet.
+    </p>
+  ) : (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {requests.map((req) => (
+        <div
+          key={req._id}
+          className="bg-gradient-to-r from-white to-gray-50 rounded-3xl shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300"
+        >
+          {/* Image */}
+          <div className="h-48 w-full overflow-hidden rounded-t-3xl">
+            <img
+              src={req.foodImage || "https://via.placeholder.com/400x200?text=Food"}
+              alt={req.foodName || "Food"}
+              className="w-full h-full object-cover"
+            />
+          </div>
 
-{/* -----------------------------------------food name field add korte hobe db te................ */}
+          {/* Card Content */}
+          <div className="p-5">
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              {req.foodName || "Food Name"}
+            </h3>
 
+            <p className="text-gray-600 text-sm mb-1">
+              <span className="font-medium">Location:</span> {req.location}
+            </p>
+            <p className="text-gray-600 text-sm mb-1">
+              <span className="font-medium">Reason:</span> {req.reason}
+            </p>
+            <p className="text-gray-600 text-sm mb-3">
+              <span className="font-medium">Contact:</span> {req.contact}
+            </p>
 
-                  <td>{req.location}</td>
-                  <td>{req.reason}</td>
-                  <td>{req.contact}</td>
-                  <td>{req.status}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            {/* Status Badge */}
+            <span
+              className={`inline-block px-4 py-2 rounded-full text-sm font-semibold ${
+                req.status === "pending"
+                  ? "bg-yellow-100 text-yellow-800"
+                  : req.status === "accepted"
+                  ? "bg-green-100 text-green-800"
+                  : "bg-red-100 text-red-800"
+              }`}
+            >
+              {req.status}
+            </span>
+          </div>
         </div>
-      )}
-    </section>
+      ))}
+    </div>
+  )}
+</section>
+
+
   );
 };
 

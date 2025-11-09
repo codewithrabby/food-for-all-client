@@ -47,7 +47,7 @@ const UpdateFood = () => {
           toast.error("No changes made or update failed!");
         }
       })
-      .catch((err) => toast.error("Failed to update food."));
+      .catch(() => toast.error("Failed to update food."));
   };
 
   return (

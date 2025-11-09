@@ -19,7 +19,7 @@ const ManageMyFoods = () => {
     }
   }, [user]);
 
-    if (loading) {
+  if (loading) {
     return <LoadingSpinner />;
   }
 
@@ -50,56 +50,72 @@ const ManageMyFoods = () => {
   };
 
   return (
-    <section className="max-w-6xl mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold mb-6 text-center">Manage My Foods</h2>
+    <section className="max-w-6xl mx-auto px-4 py-12">
+      <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">
+        Manage My Foods
+      </h2>
 
       {foods.length === 0 ? (
-        <p className="text-center text-gray-500">You haven't added any foods yet.</p>
+        <p className="text-center text-gray-500 text-lg">
+          You haven't added any foods yet.
+        </p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse border border-gray-300">
-            <thead className="bg-gray-100">
-              <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Quantity</th>
-                <th>Location</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {foods.map((food) => (
-                <tr key={food._id}>
-                  <td>
-                    <img
-                      src={food.image}
-                      alt={food.name}
-                      className="w-16 h-16 object-cover rounded"
-                    />
-                  </td>
-                  <td>{food.name}</td>
-                  <td>{food.quantity}</td>
-                  <td>{food.location}</td>
-                  <td>{food.status}</td>
-                  <td className="space-x-2">
-                    <Link
-                      to={`/update-food/${food._id}`}
-                      className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
-                    >
-                      Update
-                    </Link>
-                    <button
-                      onClick={() => handleDelete(food._id)}
-                      className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {foods.map((food) => (
+            <div
+              key={food._id}
+              className="bg-white rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+            >
+              <img
+                src={food.image}
+                alt={food.name}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4">
+                <h3 className="text-xl font-bold text-gray-800">{food.name}</h3>
+                <p className="text-gray-600 mt-1">{food.description}</p>
+                <div className="flex items-center justify-between mt-3">
+                  <span className="text-gray-700 font-medium">
+                    Qty: {food.quantity}
+                  </span>
+                  <span
+                    className={`px-2 py-1 rounded-full text-sm font-semibold ${
+                      food.status === "Available"
+                        ? "bg-green-100 text-green-800"
+                        : food.status === "Donated"
+                        ? "bg-gray-200 text-gray-600"
+                        : "bg-yellow-100 text-yellow-800"
+                    }`}
+                  >
+                    {food.status}
+                  </span>
+                </div>
+                <p className="text-gray-500 mt-2 text-sm">
+                  Pickup: {food.location}
+                </p>
+                <p className="text-red-600 mt-1 text-sm">
+                  Expires:{" "}
+                  {food.expireDate
+                    ? new Date(food.expireDate).toLocaleDateString()
+                    : "N/A"}
+                </p>
+                <div className="mt-4 flex justify-between gap-2">
+                  <Link
+                    to={`/update-food/${food._id}`}
+                    className="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg shadow"
+                  >
+                    Update
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(food._id)}
+                    className="flex-1 text-center bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg shadow"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </section>
