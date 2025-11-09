@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 const UpdateFood = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     name: "",
     image: "",
@@ -29,16 +30,21 @@ const UpdateFood = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const updatedData = { ...formData, quantity: Number(formData.quantity) };
+
     fetch(`http://localhost:3000/foods/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(updatedData),
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.modifiedCount > 0) {
+        console.log("Update response:", data);
+        if (data.modifiedCount > 0 || data.acknowledged) {
           toast.success("Food updated successfully!");
-          navigate("/manage-my-foods");
+          setTimeout(() => navigate("/manage-my-foods"), 1500);
+        } else {
+          toast.error("No changes made or update failed!");
         }
       })
       .catch((err) => toast.error("Failed to update food."));
@@ -46,6 +52,7 @@ const UpdateFood = () => {
 
   return (
     <section className="max-w-3xl mx-auto px-4 py-10">
+      <Toaster position="top-center" />
       <h2 className="text-3xl font-bold mb-6 text-center">Update Food</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
