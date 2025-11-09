@@ -4,6 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 
 const FoodDetails = () => {
   const { id } = useParams();
+  const { user } = useContext(AuthContext) || {};
   const [food, setFood] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -11,8 +12,7 @@ const FoodDetails = () => {
     reason: "",
     contact: "",
   });
-
-  const { user } = useContext(AuthContext) || {};
+  const [requests, setRequests] = useState([]);
 
   useEffect(() => {
     fetch(`http://localhost:3000/foods/${id}`)
@@ -21,6 +21,14 @@ const FoodDetails = () => {
       .catch((err) => console.error(err));
   }, [id]);
 
+  useEffect(() => {
+    if (!food) return;
+    fetch(`http://localhost:3000/food-requests/${food._id}`)
+      .then((res) => res.json())
+      .then((data) => setRequests(data))
+      .catch((err) => console.error(err));
+  }, [food]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -28,17 +36,14 @@ const FoodDetails = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!user) {
-      alert("Please login to request food!");
-      return;
-    }
+    if (!user) return alert("Please log in to request food.");
 
     const requestData = {
       ...formData,
+      foodId: food._id,
       userEmail: user.email,
       name: user.displayName,
       photoURL: user.photoURL,
-      foodId: food._id,
     };
 
     try {
@@ -47,20 +52,52 @@ const FoodDetails = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(requestData),
       });
-
       if (res.ok) {
-        alert("Food request submitted successfully!");
+        alert("Request submitted!");
         setShowModal(false);
         setFormData({ location: "", reason: "", contact: "" });
-      } else {
-        alert("Failed to submit request.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to submit request.");
+    }
+  };
+
+  const handleRequest = async (requestId, action) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3000/food-requests/${requestId}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action }),
+        }
+      );
+
+      if (res.ok) {
+        alert(`Request ${action}ed!`);
+        setRequests((prev) =>
+          prev.map((r) =>
+            r._id === requestId
+              ? { ...r, status: action === "accept" ? "accepted" : "rejected" }
+              : r
+          )
+        );
+
+        if (action === "accept") {
+          setFood((prev) => ({ ...prev, status: "donated" }));
+        }
       }
     } catch (err) {
       console.error(err);
     }
   };
 
-  if (!food) return <p className="text-center mt-10">Loading...</p>;
+  if (!food)
+    return <p className="text-center mt-10">Loading food details...</p>;
+
+const isOwner = user?.email && food?.userEmail && user.email === food.userEmail;
+
 
   return (
     <section className="max-w-3xl mx-auto px-4 py-10">
@@ -74,15 +111,18 @@ const FoodDetails = () => {
       <p className="text-green-700 font-medium mb-6">
         Serves: {food.quantity} people
       </p>
+      <p className="text-gray-500 mb-6">Status: {food.status}</p>
 
-      <button
-        onClick={() => setShowModal(true)}
-        className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700"
-      >
-        Request Food
-      </button>
+      {!isOwner && (
+        <button
+          onClick={() => setShowModal(true)}
+          className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700"
+        >
+          Request Food
+        </button>
+      )}
 
-      {/* Modal */}
+      {/* Modal for Food Request */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg w-96 relative">
@@ -131,6 +171,62 @@ const FoodDetails = () => {
               </button>
             </form>
           </div>
+        </div>
+      )}
+
+      {/* Food Requests Table */}
+      {isOwner && (
+        <div className="mt-10">
+          <h3 className="text-2xl font-bold mb-4">Food Requests</h3>
+          <table className="w-full border-collapse border border-gray-300">
+            <thead>
+              <tr className="bg-gray-100">
+                <th>Name</th>
+                <th>Email</th>
+                <th>Location</th>
+                <th>Reason</th>
+                <th>Contact</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {requests.length > 0 ? (
+                requests.map((req) => (
+                  <tr key={req._id}>
+                    <td>{req.name}</td>
+                    <td>{req.userEmail}</td>
+                    <td>{req.location}</td>
+                    <td>{req.reason}</td>
+                    <td>{req.contact}</td>
+                    <td>{req.status}</td>
+                    <td>
+                      {req.status === "pending" && (
+                        <>
+                          <button
+                            onClick={() => handleRequest(req._id, "accept")}
+                          >
+                            Accept
+                          </button>
+                          <button
+                            onClick={() => handleRequest(req._id, "reject")}
+                          >
+                            Reject
+                          </button>
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={7} className="text-center py-4">
+                    No requests yet
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       )}
     </section>
