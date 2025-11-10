@@ -26,7 +26,7 @@ const AddFood = () => {
 
     const dataToSend = {
       ...formData,
-      userName: user.displayName,
+      username: user.displayName,
       userEmail: user.email,
       userPhoto: user.photoURL,
     };

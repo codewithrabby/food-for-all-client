@@ -6,6 +6,8 @@ const AvailableFoods = () => {
   const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(true);
 
+    console.log(foods);
+
   useEffect(() => {
     fetch("http://localhost:3000/all-foods")
       .then((res) => res.json())
@@ -54,7 +56,7 @@ const AvailableFoods = () => {
               <div className="flex items-center gap-3 mt-2 mb-2">
                 <img
                   src={food.userPhoto || "/default-user.png"}
-                  alt={food.username || "Donator"}
+                  alt={food.userName || "Donator"}
                   className="w-10 h-10 rounded-full object-cover border"
                 />
                 <p className="text-gray-700 font-medium">
