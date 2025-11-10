@@ -24,13 +24,13 @@ const FoodDetails = () => {
       .catch((err) => console.error(err));
   }, [id]);
 
-  useEffect(() => {
-    if (!food) return;
-    fetch(`http://localhost:3000/food-requests/${food._id}`)
-      .then((res) => res.json())
-      .then((data) => setRequests(data))
-      .catch((err) => console.error(err));
-  }, [food]);
+  // useEffect(() => {
+  //   if (!food) return;
+  //   fetch(`http://localhost:3000/food-requests/${food._id}`)
+  //     .then((res) => res.json())
+  //     .then((data) => setRequests(data))
+  //     .catch((err) => console.error(err));
+  // }, [food]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,14 +41,17 @@ const FoodDetails = () => {
     e.preventDefault();
     if (!user) return alert("Please log in to request food.");
 
+    const { _id, userEmail, username, ...rest } = food;
+    console.log(rest);
     const requestData = {
       ...formData,
       foodId: food._id,
       userEmail: user.email,
       name: user.displayName,
       photoURL: user.photoURL,
+      ...rest,
     };
-
+    console.log(requestData);
     try {
       const res = await fetch("http://localhost:3000/food-requests", {
         method: "POST",
@@ -95,9 +98,11 @@ const FoodDetails = () => {
     }
   };
 
-  if (!food) return <p className="text-center mt-10">Loading food details...</p>;
+  if (!food)
+    return <p className="text-center mt-10">Loading food details...</p>;
 
-  const isOwner = user?.email && food?.userEmail && user.email === food.userEmail;
+  const isOwner =
+    user?.email && food?.userEmail && user.email === food.userEmail;
 
   return (
     <section className="max-w-3xl mx-auto px-4 py-10">
@@ -112,10 +117,15 @@ const FoodDetails = () => {
       <h2 className="text-3xl font-bold mb-2">{food.name}</h2>
       <p className="text-gray-600 mb-2">{food.description}</p>
       <p className="text-gray-600 mb-2">Pickup: {food.location}</p>
-      <p className="text-green-700 font-medium mb-2">Serves: {food.quantity} people</p>
+      <p className="text-green-700 font-medium mb-2">
+        Serves: {food.quantity} people
+      </p>
       <p className="text-gray-500 mb-2">Status: {food.status}</p>
       <p className="text-red-600 font-medium mb-6">
-        Expires: {food.expireDate ? new Date(food.expireDate).toLocaleDateString() : "N/A"}
+        Expires:{" "}
+        {food.expireDate
+          ? new Date(food.expireDate).toLocaleDateString()
+          : "N/A"}
       </p>
 
       {/* Request Button */}
@@ -138,7 +148,9 @@ const FoodDetails = () => {
             >
               ✕
             </button>
-            <h3 className="text-2xl font-bold mb-4 text-center">Request This Food</h3>
+            <h3 className="text-2xl font-bold mb-4 text-center">
+              Request This Food
+            </h3>
             <form onSubmit={handleSubmit} className="space-y-3">
               <input
                 type="text"

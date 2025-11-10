@@ -9,6 +9,8 @@ const ManageMyFoods = () => {
   const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(true);
 
+console.log(foods);
+
   useEffect(() => {
     if (user?.email) {
       fetch(`http://localhost:3000/my-foods?email=${user.email}`)
