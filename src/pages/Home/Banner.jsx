@@ -29,8 +29,7 @@ const Banner = () => {
           className="bg-white/20 backdrop-blur-md rounded-3xl p-10 md:p-16 shadow-lg border border-white/20"
         >
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-6 drop-shadow-lg">
-            Welcome to{" "}
-            <span className="text-green-200">Food For All</span>
+            Welcome to <span className="text-green-500">Food For All</span>
           </h1>
 
           <p className="text-lg sm:text-xl md:text-2xl text-white/90 mb-4">
