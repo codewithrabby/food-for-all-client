@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { AuthContext } from "../context/AuthContext";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -21,7 +22,7 @@ const Navbar = () => {
           to="/"
           className={({ isActive }) =>
             isActive
-              ? "font-semibold text-gray-900 border-b-2 border-blue-600"
+              ? "font-semibold text-blue-700 border-b-2 border-blue-600"
               : "hover:text-blue-600 transition"
           }
         >
@@ -33,7 +34,7 @@ const Navbar = () => {
           to="/available-foods"
           className={({ isActive }) =>
             isActive
-              ? "font-semibold text-gray-900 border-b-2 border-blue-600"
+              ? "font-semibold text-blue-700 border-b-2 border-blue-600"
               : "hover:text-blue-600 transition"
           }
         >
@@ -41,7 +42,6 @@ const Navbar = () => {
         </NavLink>
       </li>
 
-      {/* Private Links */}
       {user && (
         <>
           <li>
@@ -49,7 +49,7 @@ const Navbar = () => {
               to="/add-food"
               className={({ isActive }) =>
                 isActive
-                  ? "font-semibold text-gray-900 border-b-2 border-blue-600"
+                  ? "font-semibold text-blue-700 border-b-2 border-blue-600"
                   : "hover:text-blue-600 transition"
               }
             >
@@ -61,7 +61,7 @@ const Navbar = () => {
               to="/manage-my-foods"
               className={({ isActive }) =>
                 isActive
-                  ? "font-semibold text-gray-900 border-b-2 border-blue-600"
+                  ? "font-semibold text-blue-700 border-b-2 border-blue-600"
                   : "hover:text-blue-600 transition"
               }
             >
@@ -73,7 +73,7 @@ const Navbar = () => {
               to="/my-food-requests"
               className={({ isActive }) =>
                 isActive
-                  ? "font-semibold text-gray-900 border-b-2 border-blue-600"
+                  ? "font-semibold text-blue-700 border-b-2 border-blue-600"
                   : "hover:text-blue-600 transition"
               }
             >
@@ -86,35 +86,46 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <motion.nav
+      initial={{ y: -60, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="bg-white shadow-md sticky top-0 z-50"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-        {/* Left: Logo */}
-        <Link to="/" className="flex items-center gap-2">
-          <img
-            src="https://i.ibb.co.com/tTbMLBxG/logo2.png"
-            alt="Logo"
-            className="w-10 h-10 object-cover"
-          />
-          <h1 className="text-xl font-bold text-gray-800">Food For All</h1>
-        </Link>
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <Link to="/" className="flex items-center gap-2">
+            <img
+              src="https://i.ibb.co.com/tTbMLBxG/logo2.png"
+              alt="Logo"
+              className="w-10 h-10 object-cover hover:scale-110 transition-transform duration-300"
+            />
+            <h1 className="text-xl font-bold text-gray-800 hover:text-blue-700 transition">
+              Food For All
+            </h1>
+          </Link>
+        </motion.div>
 
-        {/* Middle: Menu Links */}
         <ul className="hidden md:flex items-center gap-6 text-gray-700">
           {navLinks}
         </ul>
 
-        {/* Right: User Profile / Login */}
         <div className="hidden md:flex items-center gap-4">
           {!user ? (
             <Link
               to="/login"
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition-transform transform hover:-translate-y-1"
             >
               Login
             </Link>
           ) : (
             <div className="relative">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.05 }}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="flex items-center gap-2"
               >
@@ -123,28 +134,35 @@ const Navbar = () => {
                     user.photoURL || "https://i.ibb.co/Zm1wZXB/default-user.png"
                   }
                   alt="User"
-                  className="w-10 h-10 rounded-full border"
+                  className="w-10 h-10 rounded-full border-2 border-blue-400 hover:border-blue-600 transition"
                 />
-              </button>
+              </motion.button>
 
-              {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-md py-2">
-                  <p className="px-4 py-2 text-sm text-gray-600 border-b">
-                    {user.displayName || "User"}
-                  </p>
-                  <button
-                    onClick={handleLogout}
-                    className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
+              <AnimatePresence>
+                {dropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 mt-3 w-52 bg-white border rounded-xl shadow-lg py-3"
                   >
-                    Logout
-                  </button>
-                </div>
-              )}
+                    <p className="px-4 py-2 text-gray-700 font-medium border-b">
+                      {user.displayName || "User"}
+                    </p>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 hover:bg-red-50 text-red-600 font-semibold transition"
+                    >
+                      Logout
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           )}
         </div>
 
-        {/* Mobile Menu Button */}
         <div className="md:hidden">
           <button onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? (
@@ -156,41 +174,49 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <ul className="md:hidden bg-white px-4 py-4 flex flex-col gap-3">
-          {navLinks}
-          {!user ? (
-            <Link
-              to="/login"
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-center"
-              onClick={() => setMenuOpen(false)}
-            >
-              Login
-            </Link>
-          ) : (
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-3">
-                <img
-                  src={
-                    user.photoURL || "https://i.ibb.co/Zm1wZXB/default-user.png"
-                  }
-                  alt="User"
-                  className="w-10 h-10 rounded-full border"
-                />
-                <span>{user.displayName}</span>
-              </div>
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.ul
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-white px-4 py-4 flex flex-col gap-3 border-t"
+          >
+            {navLinks}
+            {!user ? (
+              <Link
+                to="/login"
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-center"
+                onClick={() => setMenuOpen(false)}
               >
-                Logout
-              </button>
-            </div>
-          )}
-        </ul>
-      )}
-    </nav>
+                Login
+              </Link>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-3">
+                  <img
+                    src={
+                      user.photoURL ||
+                      "https://i.ibb.co/Zm1wZXB/default-user.png"
+                    }
+                    alt="User"
+                    className="w-10 h-10 rounded-full border"
+                  />
+                  <span>{user.displayName}</span>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </motion.nav>
   );
 };
 
