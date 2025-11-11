@@ -221,11 +221,11 @@ const FoodDetails = () => {
       {isOwner && (
         <div className="mt-12">
           <h3 className="text-3xl font-bold mb-6 text-gray-800 flex items-center gap-2">
-            Food Requests
+            🍽️ Food Requests
           </h3>
 
           <div className="overflow-x-auto rounded-2xl shadow-lg border border-gray-200">
-            <table className="min-w-full bg-white">
+            <table className="hidden md:table min-w-full bg-white">
               <thead className="bg-gradient-to-r from-green-600 to-green-500 text-white">
                 <tr>
                   <th className="py-3 px-4 text-left text-sm font-semibold">
@@ -325,6 +325,68 @@ const FoodDetails = () => {
                 )}
               </tbody>
             </table>
+
+            <div className="md:hidden divide-y divide-gray-200">
+              {requests.length > 0 ? (
+                requests.map((req) => (
+                  <div
+                    key={req._id}
+                    className="p-4 bg-white hover:bg-green-50 transition duration-200"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <h4 className="text-lg font-semibold text-gray-800">
+                        {req.name}
+                      </h4>
+                      <span
+                        className={`px-2 py-1 text-xs rounded-full font-semibold capitalize ${
+                          req.status === "accepted"
+                            ? "bg-green-100 text-green-700"
+                            : req.status === "rejected"
+                            ? "bg-red-100 text-red-700"
+                            : "bg-yellow-100 text-yellow-700"
+                        }`}
+                      >
+                        {req.status}
+                      </span>
+                    </div>
+
+                    <p className="text-sm text-gray-600">
+                      <strong>Email:</strong> {req.userEmail}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      <strong>Location:</strong> {req.location}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      <strong>Reason:</strong> {req.reason}
+                    </p>
+                    <p className="text-sm text-gray-600 mb-3">
+                      <strong>Contact:</strong> {req.contact}
+                    </p>
+
+                    {req.status === "pending" && (
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleRequest(req._id, "accept")}
+                          className="flex-1 px-3 py-1 text-sm bg-green-600 hover:bg-green-700 text-white rounded-md shadow"
+                        >
+                          Accept
+                        </button>
+                        <button
+                          onClick={() => handleRequest(req._id, "reject")}
+                          className="flex-1 px-3 py-1 text-sm bg-red-500 hover:bg-red-600 text-white rounded-md shadow"
+                        >
+                          Reject
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <p className="text-center py-6 text-gray-500 italic text-sm">
+                  No requests yet.
+                </p>
+              )}
+            </div>
           </div>
         </div>
       )}
