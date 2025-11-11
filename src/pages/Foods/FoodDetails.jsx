@@ -4,15 +4,17 @@ import { AuthContext } from "../../context/AuthContext";
 
 const FoodDetails = () => {
   const { id } = useParams();
+
   const { user } = useContext(AuthContext) || {};
+
   const [food, setFood] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [requests, setRequests] = useState([]);
   const [formData, setFormData] = useState({
     location: "",
     reason: "",
     contact: "",
   });
-  const [requests, setRequests] = useState([]);
 
   useEffect(() => {
     fetch(`http://localhost:3000/foods/${id}`)
@@ -21,16 +23,19 @@ const FoodDetails = () => {
         console.log("Fetched food:", data);
         setFood(data);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error("Error fetching food:", err));
   }, [id]);
 
-  // useEffect(() => {
-  //   if (!food) return;
-  //   fetch(`http://localhost:3000/food-requests/${food._id}`)
-  //     .then((res) => res.json())
-  //     .then((data) => setRequests(data))
-  //     .catch((err) => console.error(err));
-  // }, [food]);
+  useEffect(() => {
+    if (!food) return;
+    fetch(`http://localhost:3000/food-requests/${food._id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Fetched requests:", data);
+        setRequests(data);
+      })
+      .catch((err) => console.error("Error fetching requests:", err));
+  }, [food]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,10 +44,11 @@ const FoodDetails = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!user) return alert("Please log in to request food.");
 
     const { _id, userEmail, username, ...rest } = food;
-    console.log(rest);
+
     const requestData = {
       ...formData,
       foodId: food._id,
@@ -51,20 +57,23 @@ const FoodDetails = () => {
       photoURL: user.photoURL,
       ...rest,
     };
-    console.log(requestData);
+
     try {
       const res = await fetch("http://localhost:3000/food-requests", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(requestData),
       });
+
       if (res.ok) {
-        alert("Request submitted!");
+        alert("Request submitted successfully!");
         setShowModal(false);
         setFormData({ location: "", reason: "", contact: "" });
+      } else {
+        alert("Failed to submit request.");
       }
     } catch (err) {
-      console.error(err);
+      console.error("Request error:", err);
       alert("Failed to submit request.");
     }
   };
@@ -92,9 +101,11 @@ const FoodDetails = () => {
         if (action === "accept") {
           setFood((prev) => ({ ...prev, status: "donated" }));
         }
+
+        alert(action === "accept" ? "Request accepted!" : "Request rejected!");
       }
     } catch (err) {
-      console.error(err);
+      console.error("Error updating request:", err);
     }
   };
 
@@ -106,14 +117,11 @@ const FoodDetails = () => {
 
   return (
     <section className="max-w-3xl mx-auto px-4 py-10">
-      {/* Food Image */}
       <img
         src={food.image}
         alt={food.name}
-        className="w-full h-64 object-cover rounded-lg mb-6"
+        className="w-full h-64 object-cover rounded-lg mb-6 shadow-md"
       />
-
-      {/* Food Info */}
       <h2 className="text-3xl font-bold mb-2">{food.name}</h2>
       <p className="text-gray-600 mb-2">{food.description}</p>
       <p className="text-gray-600 mb-2">Pickup: {food.location}</p>
@@ -128,7 +136,6 @@ const FoodDetails = () => {
           : "N/A"}
       </p>
 
-      {/* Request Button */}
       {!isOwner && (
         <button
           onClick={() => setShowModal(true)}
@@ -138,10 +145,9 @@ const FoodDetails = () => {
         </button>
       )}
 
-      {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg w-96 relative">
+          <div className="bg-white p-6 rounded-lg w-96 relative shadow-lg">
             <button
               onClick={() => setShowModal(false)}
               className="absolute top-2 right-3 text-gray-500 text-xl"
@@ -165,7 +171,7 @@ const FoodDetails = () => {
                 name="reason"
                 value={formData.reason}
                 onChange={handleChange}
-                placeholder="Why need food?"
+                placeholder="Why do you need food?"
                 className="w-full border rounded p-2"
                 rows="3"
                 required
@@ -175,7 +181,7 @@ const FoodDetails = () => {
                 name="contact"
                 value={formData.contact}
                 onChange={handleChange}
-                placeholder="Contact No."
+                placeholder="Contact Number"
                 className="w-full border rounded p-2"
                 required
               />
@@ -190,44 +196,50 @@ const FoodDetails = () => {
         </div>
       )}
 
-      {/* Owner Table */}
       {isOwner && (
         <div className="mt-10">
           <h3 className="text-2xl font-bold mb-4">Food Requests</h3>
-          <table className="w-full border-collapse border border-gray-300">
+
+          <table className="w-full border-collapse border border-gray-300 rounded-lg overflow-hidden">
             <thead>
-              <tr className="bg-gray-100">
-                <th>Name</th>
-                <th>Email</th>
-                <th>Location</th>
-                <th>Reason</th>
-                <th>Contact</th>
-                <th>Status</th>
-                <th>Actions</th>
+              <tr className="bg-gray-100 text-gray-800">
+                <th className="py-2 px-3 text-left">Name</th>
+                <th className="py-2 px-3 text-left">Email</th>
+                <th className="py-2 px-3 text-left">Location</th>
+                <th className="py-2 px-3 text-left">Reason</th>
+                <th className="py-2 px-3 text-left">Contact</th>
+                <th className="py-2 px-3 text-left">Status</th>
+                <th className="py-2 px-3 text-center">Actions</th>
               </tr>
             </thead>
+
             <tbody>
               {requests.length > 0 ? (
                 requests.map((req) => (
-                  <tr key={req._id}>
-                    <td>{req.name}</td>
-                    <td>{req.userEmail}</td>
-                    <td>{req.location}</td>
-                    <td>{req.reason}</td>
-                    <td>{req.contact}</td>
-                    <td>{req.status}</td>
-                    <td>
+                  <tr
+                    key={req._id}
+                    className="border-t hover:bg-gray-50 transition"
+                  >
+                    <td className="py-2 px-3">{req.name}</td>
+                    <td className="py-2 px-3">{req.userEmail}</td>
+                    <td className="py-2 px-3">{req.location}</td>
+                    <td className="py-2 px-3">{req.reason}</td>
+                    <td className="py-2 px-3">{req.contact}</td>
+                    <td className="py-2 px-3 font-semibold capitalize">
+                      {req.status}
+                    </td>
+                    <td className="py-2 px-3 text-center">
                       {req.status === "pending" && (
                         <>
                           <button
                             onClick={() => handleRequest(req._id, "accept")}
-                            className="mr-2 px-2 py-1 bg-green-500 text-white rounded"
+                            className="mr-2 px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded"
                           >
                             Accept
                           </button>
                           <button
                             onClick={() => handleRequest(req._id, "reject")}
-                            className="px-2 py-1 bg-red-500 text-white rounded"
+                            className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded"
                           >
                             Reject
                           </button>
@@ -238,8 +250,11 @@ const FoodDetails = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={7} className="text-center py-4">
-                    No requests yet
+                  <td
+                    colSpan={7}
+                    className="text-center py-4 text-gray-500 italic"
+                  >
+                    No requests yet.
                   </td>
                 </tr>
               )}
