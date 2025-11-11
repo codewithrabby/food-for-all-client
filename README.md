@@ -16,13 +16,14 @@
 
 ---
 
-## 🛠️ Tech Stack
 
-- **Frontend:** React.js, Tailwind CSS, Framer Motion
-- **Backend:** Node.js, Express.js
-- **Database:** MongoDB
-- **Authentication:** Firebase
+## 🛠️ Tech Stack 
+-  **Frontend:** React.js, Tailwind CSS, Framer Motion, AOS, React Router DOM, React Icons
+-  **Backend:** Node.js, Express.js, CORS, dotenv
+-  **Database:** MongoDB (MongoDB Driver)
+- **Authentication:** Firebase 
 - **Notifications:** React Hot Toast
+- **Utilities / Extra:** Axios, SweetAlert2, @react-spring/web
 
 ---
 
@@ -34,7 +35,7 @@ The main goal of **Food For All** is to build a sustainable food-sharing communi
 
 ## 🌐 Live Link
 
-👉 [Visit Food For All](........................)
+👉 [Visit Food For All](https://food-for-all-f5b23.web.app)
 
 ---
 

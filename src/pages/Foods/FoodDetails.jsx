@@ -77,6 +77,24 @@ const FoodDetails = () => {
       alert("Failed to submit request.");
     }
   };
+// ......................................
+
+  // useEffect(() => {
+  //   if (!user?.email || !isOwner) return;
+
+  //   fetch(`http://localhost:3000/requests-for-my-foods?email=${user.email}`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log("Fetched my foods' requests:", data);
+  //       setRequests(data);
+  //     })
+  //     .catch((err) => console.error("Error fetching my foods' requests:", err));
+  // }, [user, isOwner]);
+
+// ..............................................
+
+
+
 
   const handleRequest = async (requestId, action) => {
     try {
