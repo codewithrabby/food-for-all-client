@@ -219,69 +219,113 @@ const FoodDetails = () => {
       )}
 
       {isOwner && (
-        <div className="mt-10">
-          <h3 className="text-2xl font-bold mb-4">Food Requests</h3>
+        <div className="mt-12">
+          <h3 className="text-3xl font-bold mb-6 text-gray-800 flex items-center gap-2">
+            Food Requests
+          </h3>
 
-          <table className="w-full border-collapse border border-gray-300 rounded-lg overflow-hidden">
-            <thead>
-              <tr className="bg-gray-100 text-gray-800">
-                <th className="py-2 px-3 text-left">Name</th>
-                <th className="py-2 px-3 text-left">Email</th>
-                <th className="py-2 px-3 text-left">Location</th>
-                <th className="py-2 px-3 text-left">Reason</th>
-                <th className="py-2 px-3 text-left">Contact</th>
-                <th className="py-2 px-3 text-left">Status</th>
-                <th className="py-2 px-3 text-center">Actions</th>
-              </tr>
-            </thead>
+          <div className="overflow-x-auto rounded-2xl shadow-lg border border-gray-200">
+            <table className="min-w-full bg-white">
+              <thead className="bg-gradient-to-r from-green-600 to-green-500 text-white">
+                <tr>
+                  <th className="py-3 px-4 text-left text-sm font-semibold">
+                    Name
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold">
+                    Email
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold">
+                    Location
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold">
+                    Reason
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold">
+                    Contact
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold">
+                    Status
+                  </th>
+                  <th className="py-3 px-4 text-center text-sm font-semibold">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {requests.length > 0 ? (
-                requests.map((req) => (
-                  <tr
-                    key={req._id}
-                    className="border-t hover:bg-gray-50 transition"
-                  >
-                    <td className="py-2 px-3">{req.name}</td>
-                    <td className="py-2 px-3">{req.userEmail}</td>
-                    <td className="py-2 px-3">{req.location}</td>
-                    <td className="py-2 px-3">{req.reason}</td>
-                    <td className="py-2 px-3">{req.contact}</td>
-                    <td className="py-2 px-3 font-semibold capitalize">
-                      {req.status}
-                    </td>
-                    <td className="py-2 px-3 text-center">
-                      {req.status === "pending" && (
-                        <>
-                          <button
-                            onClick={() => handleRequest(req._id, "accept")}
-                            className="mr-2 px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded"
-                          >
-                            Accept
-                          </button>
-                          <button
-                            onClick={() => handleRequest(req._id, "reject")}
-                            className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded"
-                          >
-                            Reject
-                          </button>
-                        </>
-                      )}
+              <tbody>
+                {requests.length > 0 ? (
+                  requests.map((req, index) => (
+                    <tr
+                      key={req._id}
+                      className={`${
+                        index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                      } hover:bg-green-50 transition duration-200`}
+                    >
+                      <td className="py-3 px-4 text-sm font-medium text-gray-800">
+                        {req.name}
+                      </td>
+                      <td className="py-3 px-4 text-sm text-gray-700">
+                        {req.userEmail}
+                      </td>
+                      <td className="py-3 px-4 text-sm text-gray-700">
+                        {req.location}
+                      </td>
+                      <td className="py-3 px-4 text-sm text-gray-700 max-w-xs truncate">
+                        {req.reason}
+                      </td>
+                      <td className="py-3 px-4 text-sm text-gray-700">
+                        {req.contact}
+                      </td>
+                      <td className="py-3 px-4">
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${
+                            req.status === "accepted"
+                              ? "bg-green-100 text-green-700"
+                              : req.status === "rejected"
+                              ? "bg-red-100 text-red-700"
+                              : "bg-yellow-100 text-yellow-700"
+                          }`}
+                        >
+                          {req.status}
+                        </span>
+                      </td>
+                      <td className="py-3 px-4 text-center">
+                        {req.status === "pending" ? (
+                          <div className="flex justify-center gap-2">
+                            <button
+                              onClick={() => handleRequest(req._id, "accept")}
+                              className="px-3 py-1 text-sm bg-green-600 hover:bg-green-700 text-white rounded-md shadow"
+                            >
+                              Accept
+                            </button>
+                            <button
+                              onClick={() => handleRequest(req._id, "reject")}
+                              className="px-3 py-1 text-sm bg-red-500 hover:bg-red-600 text-white rounded-md shadow"
+                            >
+                              Reject
+                            </button>
+                          </div>
+                        ) : (
+                          <span className="text-gray-400 text-sm italic">
+                            —
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="text-center py-6 text-gray-500 italic text-sm"
+                    >
+                      No requests yet.
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan={7}
-                    className="text-center py-4 text-gray-500 italic"
-                  >
-                    No requests yet.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </section>

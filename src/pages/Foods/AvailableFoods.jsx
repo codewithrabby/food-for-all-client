@@ -13,7 +13,6 @@ const AvailableFoods = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched foods:", data);
-        // Filter only available foods
         const availableFoods = data.filter(
           (food) => food.status === "Available"
         );
