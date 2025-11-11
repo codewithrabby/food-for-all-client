@@ -13,7 +13,9 @@ const ManageMyFoods = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:3000/my-foods?email=${user.email}`)
+      fetch(
+        `https://food-for-all-server-gamma.vercel.app/my-foods?email=${user.email}`
+      )
         .then((res) => res.json())
         .then((data) => setFoods(data))
         .catch((err) => console.error("Error fetching my foods:", err))
@@ -37,7 +39,7 @@ const ManageMyFoods = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/foods/${id}`, {
+        fetch(`https://food-for-all-server-gamma.vercel.app/foods/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

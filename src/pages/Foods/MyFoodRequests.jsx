@@ -7,7 +7,9 @@ const MyFoodRequests = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:3000/my-food-requests?email=${user.email}`)
+      fetch(
+        `https://food-for-all-server-gamma.vercel.app/my-food-requests?email=${user.email}`
+      )
         .then((res) => res.json())
         .then((data) => setRequests(data))
         .catch((err) => console.error("Failed to fetch requests:", err));

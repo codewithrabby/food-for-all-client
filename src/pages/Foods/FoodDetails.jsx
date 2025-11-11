@@ -17,7 +17,7 @@ const FoodDetails = () => {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:3000/foods/${id}`)
+    fetch(`https://food-for-all-server-gamma.vercel.app/foods/${id}`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched food:", data);
@@ -28,7 +28,9 @@ const FoodDetails = () => {
 
   useEffect(() => {
     if (!food) return;
-    fetch(`http://localhost:3000/food-requests/${food._id}`)
+    fetch(
+      `https://food-for-all-server-gamma.vercel.app/food-requests/${food._id}`
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched requests:", data);
@@ -59,11 +61,14 @@ const FoodDetails = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/food-requests", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestData),
-      });
+      const res = await fetch(
+        "https://food-for-all-server-gamma.vercel.app/food-requests",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestData),
+        }
+      );
 
       if (res.ok) {
         alert("Request submitted successfully!");
@@ -77,29 +82,31 @@ const FoodDetails = () => {
       alert("Failed to submit request.");
     }
   };
-// ......................................
+  // ......................................
 
-  // useEffect(() => {
-  //   if (!user?.email || !isOwner) return;
+  const isOwner =
+    user?.email && food?.userEmail && user.email === food.userEmail;
 
-  //   fetch(`http://localhost:3000/requests-for-my-foods?email=${user.email}`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log("Fetched my foods' requests:", data);
-  //       setRequests(data);
-  //     })
-  //     .catch((err) => console.error("Error fetching my foods' requests:", err));
-  // }, [user, isOwner]);
+  useEffect(() => {
+    if (!user?.email || !isOwner) return;
 
-// ..............................................
+    fetch(
+      `https://food-for-all-server-gamma.vercel.app/requests-for-my-foods?email=${user.email}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Fetched my foods' requests:", data);
+        setRequests(data);
+      })
+      .catch((err) => console.error("Error fetching my foods' requests:", err));
+  }, [user, isOwner]);
 
-
-
+  // ..............................................
 
   const handleRequest = async (requestId, action) => {
     try {
       const res = await fetch(
-        `http://localhost:3000/food-requests/${requestId}`,
+        `https://food-for-all-server-gamma.vercel.app/food-requests/${requestId}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -129,9 +136,6 @@ const FoodDetails = () => {
 
   if (!food)
     return <p className="text-center mt-10">Loading food details...</p>;
-
-  const isOwner =
-    user?.email && food?.userEmail && user.email === food.userEmail;
 
   return (
     <section className="max-w-3xl mx-auto px-4 py-10">

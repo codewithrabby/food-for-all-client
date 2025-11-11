@@ -5,7 +5,7 @@ const FeaturedFoods = () => {
   const [foods, setFoods] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/foods")
+    fetch("https://food-for-all-server-gamma.vercel.app/foods")
       .then((res) => res.json())
       .then((data) => setFoods(data.slice(0, 6)))
       .catch((err) => console.error("Failed to fetch foods:", err));

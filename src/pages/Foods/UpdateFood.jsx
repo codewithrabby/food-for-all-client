@@ -5,7 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 const UpdateFood = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     name: "",
     image: "",
@@ -16,7 +16,7 @@ const UpdateFood = () => {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:3000/foods/${id}`)
+    fetch(`https://food-for-all-server-gamma.vercel.app/foods/${id}`)
       .then((res) => res.json())
       .then((data) => setFormData(data))
       .catch((err) => console.error(err));
@@ -32,7 +32,7 @@ const UpdateFood = () => {
 
     const updatedData = { ...formData, quantity: Number(formData.quantity) };
 
-    fetch(`http://localhost:3000/foods/${id}`, {
+    fetch(`https://food-for-all-server-gamma.vercel.app/foods/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedData),

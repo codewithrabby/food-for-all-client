@@ -32,11 +32,14 @@ const AddFood = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/foods", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataToSend),
-      });
+      const res = await fetch(
+        "https://food-for-all-server-gamma.vercel.app/foods",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dataToSend),
+        }
+      );
 
       if (res.ok) {
         toast.success("Food added successfully!");

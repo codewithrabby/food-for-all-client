@@ -6,10 +6,10 @@ const AvailableFoods = () => {
   const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(true);
 
-    console.log(foods);
+  // console.log(foods);
 
   useEffect(() => {
-    fetch("http://localhost:3000/all-foods")
+    fetch("https://food-for-all-server-gamma.vercel.app/all-foods")
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched foods:", data);
