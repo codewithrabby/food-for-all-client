@@ -9,7 +9,7 @@ const ManageMyFoods = () => {
   const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(true);
 
-console.log(foods);
+  console.log(foods);
 
   useEffect(() => {
     if (user?.email) {
@@ -62,62 +62,87 @@ console.log(foods);
           You haven't added any foods yet.
         </p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {foods.map((food) => (
-            <div
-              key={food._id}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
-            >
-              <img
-                src={food.image}
-                alt={food.name}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="text-xl font-bold text-gray-800">{food.name}</h3>
-                <p className="text-gray-600 mt-1">{food.description}</p>
-                <div className="flex items-center justify-between mt-3">
-                  <span className="text-gray-700 font-medium">
-                    Qty: {food.quantity}
-                  </span>
-                  <span
-                    className={`px-2 py-1 rounded-full text-sm font-semibold ${
-                      food.status === "Available"
-                        ? "bg-green-100 text-green-800"
-                        : food.status === "Donated"
-                        ? "bg-gray-200 text-gray-600"
-                        : "bg-yellow-100 text-yellow-800"
-                    }`}
-                  >
-                    {food.status}
-                  </span>
-                </div>
-                <p className="text-gray-500 mt-2 text-sm">
-                  Pickup: {food.location}
-                </p>
-                <p className="text-red-600 mt-1 text-sm">
-                  Expires:{" "}
-                  {food.expireDate
-                    ? new Date(food.expireDate).toLocaleDateString()
-                    : "N/A"}
-                </p>
-                <div className="mt-4 flex justify-between gap-2">
-                  <Link
-                    to={`/update-food/${food._id}`}
-                    className="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg shadow"
-                  >
-                    Update
-                  </Link>
-                  <button
-                    onClick={() => handleDelete(food._id)}
-                    className="flex-1 text-center bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg shadow"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-lg">
+            <thead className="bg-gray-100 text-gray-800">
+              <tr>
+                <th className="px-4 py-3 text-left font-semibold">Image</th>
+                <th className="px-4 py-3 text-left font-semibold">Name</th>
+                <th className="px-4 py-3 text-left font-semibold">
+                  Description
+                </th>
+                <th className="px-4 py-3 text-left font-semibold">Qty</th>
+                <th className="px-4 py-3 text-left font-semibold">Status</th>
+                <th className="px-4 py-3 text-left font-semibold">Location</th>
+                <th className="px-4 py-3 text-left font-semibold">Expires</th>
+                <th className="px-4 py-3 text-center font-semibold">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody className="text-gray-700">
+              {foods.map((food) => (
+                <tr
+                  key={food._id}
+                  className="border-t hover:bg-gray-50 transition"
+                >
+                  <td className="px-4 py-3">
+                    <img
+                      src={food.image}
+                      alt={food.name}
+                      className="w-16 h-16 object-cover rounded-md border"
+                    />
+                  </td>
+
+                  <td className="px-4 py-3 font-medium">{food.name}</td>
+
+                  <td className="px-4 py-3 text-sm text-gray-600">
+                    {food.description.length > 40
+                      ? food.description.slice(0, 40) + "..."
+                      : food.description}
+                  </td>
+
+                  <td className="px-4 py-3">{food.quantity}</td>
+
+                  <td className="px-4 py-3">
+                    <span
+                      className={`px-2 py-1 rounded-full text-sm font-semibold ${
+                        food.status === "Available"
+                          ? "bg-green-100 text-green-800"
+                          : food.status === "Donated"
+                          ? "bg-gray-200 text-gray-600"
+                          : "bg-yellow-100 text-yellow-800"
+                      }`}
+                    >
+                      {food.status}
+                    </span>
+                  </td>
+
+                  <td className="px-4 py-3">{food.location}</td>
+
+                  <td className="px-4 py-3 text-sm text-red-600">
+                    {food.expireDate
+                      ? new Date(food.expireDate).toLocaleDateString()
+                      : "N/A"}
+                  </td>
+
+                  <td className="px-4 py-3 text-center flex flex-wrap gap-2 justify-center">
+                    <Link
+                      to={`/update-food/${food._id}`}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-lg text-sm shadow"
+                    >
+                      Update
+                    </Link>
+                    <button
+                      onClick={() => handleDelete(food._id)}
+                      className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg text-sm shadow"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </section>
