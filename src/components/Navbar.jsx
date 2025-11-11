@@ -19,18 +19,6 @@ const Navbar = () => {
     <>
       <li>
         <NavLink
-          to="/"
-          className={({ isActive }) =>
-            isActive
-              ? "font-semibold text-blue-700 border-b-2 border-blue-600"
-              : "hover:text-blue-600 transition"
-          }
-        >
-          Home
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
           to="/available-foods"
           className={({ isActive }) =>
             isActive
@@ -41,47 +29,42 @@ const Navbar = () => {
           Available Foods
         </NavLink>
       </li>
-
-      {user && (
-        <>
-          <li>
-            <NavLink
-              to="/add-food"
-              className={({ isActive }) =>
-                isActive
-                  ? "font-semibold text-blue-700 border-b-2 border-blue-600"
-                  : "hover:text-blue-600 transition"
-              }
-            >
-              Add Food
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/manage-my-foods"
-              className={({ isActive }) =>
-                isActive
-                  ? "font-semibold text-blue-700 border-b-2 border-blue-600"
-                  : "hover:text-blue-600 transition"
-              }
-            >
-              Manage My Foods
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/my-food-requests"
-              className={({ isActive }) =>
-                isActive
-                  ? "font-semibold text-blue-700 border-b-2 border-blue-600"
-                  : "hover:text-blue-600 transition"
-              }
-            >
-              My Food Requests
-            </NavLink>
-          </li>
-        </>
-      )}
+      <li>
+        <NavLink
+          to="/add-food"
+          className={({ isActive }) =>
+            isActive
+              ? "font-semibold text-blue-700 border-b-2 border-blue-600"
+              : "hover:text-blue-600 transition"
+          }
+        >
+          Add Food
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/manage-my-foods"
+          className={({ isActive }) =>
+            isActive
+              ? "font-semibold text-blue-700 border-b-2 border-blue-600"
+              : "hover:text-blue-600 transition"
+          }
+        >
+          Manage My Foods
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/my-food-requests"
+          className={({ isActive }) =>
+            isActive
+              ? "font-semibold text-blue-700 border-b-2 border-blue-600"
+              : "hover:text-blue-600 transition"
+          }
+        >
+          My Food Requests
+        </NavLink>
+      </li>
     </>
   );
 
@@ -111,7 +94,19 @@ const Navbar = () => {
         </motion.div>
 
         <ul className="hidden md:flex items-center gap-6 text-gray-700">
-          {navLinks}
+          <li>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? "font-semibold text-blue-700 border-b-2 border-blue-600"
+                  : "hover:text-blue-600 transition"
+              }
+            >
+              Home
+            </NavLink>
+          </li>
+          {user && navLinks}
         </ul>
 
         <div className="hidden md:flex items-center gap-4">
@@ -137,22 +132,26 @@ const Navbar = () => {
                   className="w-10 h-10 rounded-full border-2 border-blue-400 hover:border-blue-600 transition"
                 />
               </motion.button>
-
               <AnimatePresence>
                 {dropdownOpen && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute right-0 mt-3 w-52 bg-white border rounded-xl shadow-lg py-3"
+                    transition={{ duration: 0.25 }}
+                    className="absolute right-0 mt-3 w-56 bg-white border rounded-xl shadow-lg py-3"
                   >
                     <p className="px-4 py-2 text-gray-700 font-medium border-b">
                       {user.displayName || "User"}
                     </p>
+
+                    <ul className="flex flex-col gap-2 px-4 py-2 text-gray-700">
+                      {navLinks}
+                    </ul>
+
                     <button
                       onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 hover:bg-red-50 text-red-600 font-semibold transition"
+                      className="w-full text-left px-4 py-2 mt-1 hover:bg-red-50 text-red-600 font-semibold transition"
                     >
                       Logout
                     </button>
@@ -183,7 +182,10 @@ const Navbar = () => {
             transition={{ duration: 0.3 }}
             className="md:hidden bg-white px-4 py-4 flex flex-col gap-3 border-t"
           >
-            {navLinks}
+            <NavLink to="/" className="hover:text-blue-600 transition">
+              Home
+            </NavLink>
+            {user && navLinks}
             {!user ? (
               <Link
                 to="/login"
@@ -193,25 +195,12 @@ const Navbar = () => {
                 Login
               </Link>
             ) : (
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-3">
-                  <img
-                    src={
-                      user.photoURL ||
-                      "https://i.ibb.co/Zm1wZXB/default-user.png"
-                    }
-                    alt="User"
-                    className="w-10 h-10 rounded-full border"
-                  />
-                  <span>{user.displayName}</span>
-                </div>
-                <button
-                  onClick={handleLogout}
-                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
-                >
-                  Logout
-                </button>
-              </div>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+              >
+                Logout
+              </button>
             )}
           </motion.ul>
         )}
