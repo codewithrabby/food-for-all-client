@@ -13,49 +13,44 @@ const Banner = () => {
   }, []);
 
   return (
-    <section className="bg-gradient-to-r from-green-100 via-green-50 to-green-100 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center relative">
-        <h1
-          data-aos="zoom-in"
-          className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-800 mb-6"
-        >
-          Welcome to{" "}
-          <span className="text-green-700 drop-shadow-sm">Food For All</span>
-        </h1>
+    <section className="relative h-screen w-full overflow-hidden">
+      <div
+        className="absolute inset-0 bg-cover bg-center z-0"
+        style={{
+          backgroundImage: "url('https://i.ibb.co.com/cKh0VJCw/banner.webp')",
+        }}
+      />
 
-        <p
+      <div className="absolute inset-0 bg-black/20 z-0"></div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center h-full text-center">
+        <div
           data-aos="fade-up"
-          data-aos-delay="200"
-          className="text-lg sm:text-xl md:text-2xl text-gray-700 mb-4"
+          className="bg-white/20 backdrop-blur-md rounded-3xl p-10 md:p-16 shadow-lg border border-white/20"
         >
-          Discover available meals near you, share surplus food, and join our
-          mission to fight hunger.
-        </p>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-6 drop-shadow-lg">
+            Welcome to{" "}
+            <span className="text-green-200">Food For All</span>
+          </h1>
 
-        <p
-          data-aos="fade-up"
-          data-aos-delay="400"
-          className="text-md sm:text-lg md:text-xl text-gray-600 mb-8 max-w-3xl mx-auto"
-        >
-          Whether you want to donate extra food or find a meal, our platform
-          connects generous hearts with those in need. Reduce food waste,
-          support your community, and make a difference today.
-        </p>
+          <p className="text-lg sm:text-xl md:text-2xl text-white/90 mb-4">
+            Discover available meals near you, share surplus food, and join our
+            mission to fight hunger.
+          </p>
 
-        <div data-aos="zoom-in-up" data-aos-delay="600">
+          <p className="text-md sm:text-lg md:text-xl text-white/80 mb-8 max-w-3xl mx-auto">
+            Whether you want to donate extra food or find a meal, our platform
+            connects generous hearts with those in need. Reduce food waste,
+            support your community, and make a difference today.
+          </p>
+
           <Link
             to="/available-foods"
-            className="inline-block px-8 py-4 bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:bg-green-700 transition transform hover:-translate-y-1"
+            className="inline-block px-8 py-4 bg-green-600/90 text-white font-semibold rounded-lg shadow-lg hover:bg-green-700/90 transition transform hover:-translate-y-1"
           >
             View All Foods
           </Link>
         </div>
-
-        <div
-          data-aos="zoom-in"
-          data-aos-delay="800"
-          className="absolute top-20 left-1/2 transform -translate-x-1/2 w-[400px] h-[400px] bg-green-300 rounded-full blur-3xl opacity-20 -z-10"
-        />
       </div>
     </section>
   );
