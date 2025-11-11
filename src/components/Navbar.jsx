@@ -87,7 +87,7 @@ const Navbar = () => {
               alt="Logo"
               className="w-10 h-10 object-cover hover:scale-110 transition-transform duration-300"
             />
-            <h1 className="text-xl font-bold text-gray-800 hover:text-blue-700 transition">
+            <h1 className="text-xl font-bold text-gray-800 hover:text-green-700 transition">
               Food For All
             </h1>
           </Link>

@@ -40,27 +40,30 @@ const FeaturedFoods = () => {
             <animated.div
               key={food._id}
               style={style}
-              className="bg-white shadow-md hover:shadow-xl rounded-2xl p-5 border border-gray-100 transform hover:-translate-y-1 transition-all duration-300"
+              className="bg-white shadow-md hover:shadow-xl rounded-2xl p-5 border border-gray-100 transform hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
             >
-              <div className="overflow-hidden rounded-xl mb-4">
-                <img
-                  src={food.image}
-                  alt={food.name}
-                  className="w-full h-52 object-cover transition-transform duration-300 hover:scale-105"
-                />
+              <div>
+                <div className="overflow-hidden rounded-xl mb-4">
+                  <img
+                    src={food.image}
+                    alt={food.name}
+                    className="w-full h-52 object-cover transition-transform duration-300 hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+                  {food.name}
+                </h3>
+                <p className="text-gray-600 mb-3 line-clamp-3">
+                  {food.description}
+                </p>
+                <p className="text-green-700 font-medium mb-4">
+                  Serves: {food.quantity} people
+                </p>
               </div>
-              <h3 className="text-2xl font-semibold text-gray-800 mb-2">
-                {food.name}
-              </h3>
-              <p className="text-gray-600 mb-3 line-clamp-3">
-                {food.description}
-              </p>
-              <p className="text-green-700 font-medium mb-4">
-                Serves: {food.quantity} people
-              </p>
+
               <Link
                 to={`/foods/${food._id}`}
-                className="inline-block bg-green-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-green-700 shadow-md transition duration-300"
+                className="w-full text-center bg-green-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-green-700 shadow-md transition duration-300 mt-auto"
               >
                 View Details
               </Link>

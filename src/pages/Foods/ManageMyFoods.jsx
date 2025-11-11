@@ -63,19 +63,33 @@ const ManageMyFoods = () => {
         </p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-lg">
+          <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md text-sm sm:text-base">
             <thead className="bg-gray-100 text-gray-800">
               <tr>
-                <th className="px-4 py-3 text-left font-semibold">Image</th>
-                <th className="px-4 py-3 text-left font-semibold">Name</th>
-                <th className="px-4 py-3 text-left font-semibold">
+                <th className="px-3 sm:px-4 py-3 text-left font-semibold whitespace-nowrap">
+                  Image
+                </th>
+                <th className="px-3 sm:px-4 py-3 text-left font-semibold whitespace-nowrap">
+                  Name
+                </th>
+                <th className="px-3 sm:px-4 py-3 text-left font-semibold whitespace-nowrap hidden sm:table-cell">
                   Description
                 </th>
-                <th className="px-4 py-3 text-left font-semibold">Qty</th>
-                <th className="px-4 py-3 text-left font-semibold">Status</th>
-                <th className="px-4 py-3 text-left font-semibold">Location</th>
-                <th className="px-4 py-3 text-left font-semibold">Expires</th>
-                <th className="px-4 py-3 text-center font-semibold">Actions</th>
+                <th className="px-3 sm:px-4 py-3 text-left font-semibold whitespace-nowrap">
+                  Qty
+                </th>
+                <th className="px-3 sm:px-4 py-3 text-left font-semibold whitespace-nowrap">
+                  Status
+                </th>
+                <th className="px-3 sm:px-4 py-3 text-left font-semibold whitespace-nowrap hidden sm:table-cell">
+                  Location
+                </th>
+                <th className="px-3 sm:px-4 py-3 text-left font-semibold whitespace-nowrap">
+                  Expires
+                </th>
+                <th className="px-3 sm:px-4 py-3 text-center font-semibold whitespace-nowrap">
+                  Actions
+                </th>
               </tr>
             </thead>
 
@@ -85,27 +99,36 @@ const ManageMyFoods = () => {
                   key={food._id}
                   className="border-t hover:bg-gray-50 transition"
                 >
-                  <td className="px-4 py-3">
+                  {/* Image */}
+                  <td className="px-3 sm:px-4 py-3">
                     <img
                       src={food.image}
                       alt={food.name}
-                      className="w-16 h-16 object-cover rounded-md border"
+                      className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-md border"
                     />
                   </td>
 
-                  <td className="px-4 py-3 font-medium">{food.name}</td>
+                  {/* Name */}
+                  <td className="px-3 sm:px-4 py-3 font-medium text-gray-800 whitespace-nowrap">
+                    {food.name}
+                  </td>
 
-                  <td className="px-4 py-3 text-sm text-gray-600">
+                  {/* Description (hidden on small screens) */}
+                  <td className="px-3 sm:px-4 py-3 text-gray-600 text-xs sm:text-sm hidden sm:table-cell">
                     {food.description.length > 40
                       ? food.description.slice(0, 40) + "..."
                       : food.description}
                   </td>
 
-                  <td className="px-4 py-3">{food.quantity}</td>
+                  {/* Quantity */}
+                  <td className="px-3 sm:px-4 py-3 whitespace-nowrap">
+                    {food.quantity}
+                  </td>
 
-                  <td className="px-4 py-3">
+                  {/* Status */}
+                  <td className="px-3 sm:px-4 py-3 whitespace-nowrap">
                     <span
-                      className={`px-2 py-1 rounded-full text-sm font-semibold ${
+                      className={`px-2 py-1 rounded-full text-xs sm:text-sm font-semibold ${
                         food.status === "Available"
                           ? "bg-green-100 text-green-800"
                           : food.status === "Donated"
@@ -117,27 +140,34 @@ const ManageMyFoods = () => {
                     </span>
                   </td>
 
-                  <td className="px-4 py-3">{food.location}</td>
+                  {/* Location (hidden on mobile) */}
+                  <td className="px-3 sm:px-4 py-3 text-gray-700 hidden sm:table-cell">
+                    {food.location}
+                  </td>
 
-                  <td className="px-4 py-3 text-sm text-red-600">
+                  {/* Expire date */}
+                  <td className="px-3 sm:px-4 py-3 text-red-600 text-xs sm:text-sm whitespace-nowrap">
                     {food.expireDate
                       ? new Date(food.expireDate).toLocaleDateString()
                       : "N/A"}
                   </td>
 
-                  <td className="px-4 py-3 text-center flex flex-wrap gap-2 justify-center">
-                    <Link
-                      to={`/update-food/${food._id}`}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-lg text-sm shadow"
-                    >
-                      Update
-                    </Link>
-                    <button
-                      onClick={() => handleDelete(food._id)}
-                      className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg text-sm shadow"
-                    >
-                      Delete
-                    </button>
+                  {/* Actions */}
+                  <td className="px-3 sm:px-4 py-3 text-center whitespace-nowrap">
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      <Link
+                        to={`/update-food/${food._id}`}
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-lg text-xs sm:text-sm font-semibold shadow"
+                      >
+                        Update
+                      </Link>
+                      <button
+                        onClick={() => handleDelete(food._id)}
+                        className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg text-xs sm:text-sm font-semibold shadow"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
