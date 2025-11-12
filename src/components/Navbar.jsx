@@ -22,8 +22,8 @@ const Navbar = () => {
           to="/available-foods"
           className={({ isActive }) =>
             isActive
-              ? "font-semibold text-blue-700 border-b-2 border-blue-600"
-              : "hover:text-blue-600 transition"
+              ? "font-semibold text-green-700 border-b-2 border-green-600"
+              : "hover:text-green-600 transition"
           }
         >
           Available Foods
@@ -34,8 +34,8 @@ const Navbar = () => {
           to="/add-food"
           className={({ isActive }) =>
             isActive
-              ? "font-semibold text-blue-700 border-b-2 border-blue-600"
-              : "hover:text-blue-600 transition"
+              ? "font-semibold text-green-700 border-b-2 border-green-600"
+              : "hover:text-green-600 transition"
           }
         >
           Add Food
@@ -46,8 +46,8 @@ const Navbar = () => {
           to="/manage-my-foods"
           className={({ isActive }) =>
             isActive
-              ? "font-semibold text-blue-700 border-b-2 border-blue-600"
-              : "hover:text-blue-600 transition"
+              ? "font-semibold text-green-700 border-b-2 border-green-600"
+              : "hover:text-green-600 transition"
           }
         >
           Manage My Foods
@@ -58,8 +58,8 @@ const Navbar = () => {
           to="/my-food-requests"
           className={({ isActive }) =>
             isActive
-              ? "font-semibold text-blue-700 border-b-2 border-blue-600"
-              : "hover:text-blue-600 transition"
+              ? "font-semibold text-green-700 border-b-2 border-green-600"
+              : "hover:text-green-600 transition"
           }
         >
           My Food Requests

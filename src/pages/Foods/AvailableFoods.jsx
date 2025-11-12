@@ -6,7 +6,7 @@ const AvailableFoods = () => {
   const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // console.log(foods);
+  console.log(foods);
 
   useEffect(() => {
     fetch("https://food-for-all-server-gamma.vercel.app/all-foods")
