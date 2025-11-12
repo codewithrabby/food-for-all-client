@@ -99,8 +99,8 @@ const Navbar = () => {
               to="/"
               className={({ isActive }) =>
                 isActive
-                  ? "font-semibold text-blue-700 border-b-2 border-blue-600"
-                  : "hover:text-blue-600 transition"
+                  ? "font-semibold text-green-700 border-b-2 border-green-600"
+                  : "hover:text-green-600 transition"
               }
             >
               Home
@@ -113,7 +113,7 @@ const Navbar = () => {
           {!user ? (
             <Link
               to="/login"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition-transform transform hover:-translate-y-1"
+              className="px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition-transform transform hover:-translate-y-1"
             >
               Login
             </Link>
