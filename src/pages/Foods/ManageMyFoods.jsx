@@ -159,7 +159,7 @@ const ManageMyFoods = () => {
                     <div className="flex flex-wrap gap-2 justify-center">
                       <Link
                         to={`/update-food/${food._id}`}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-lg text-xs sm:text-sm font-semibold shadow"
+                        className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-lg text-xs sm:text-sm font-semibold shadow"
                       >
                         Update
                       </Link>

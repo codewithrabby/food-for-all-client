@@ -221,7 +221,7 @@ const FoodDetails = () => {
       {isOwner && (
         <div className="mt-12">
           <h3 className="text-3xl font-bold mb-6 text-gray-800 flex items-center gap-2">
-            🍽️ Food Requests
+            Food Requests
           </h3>
 
           <div className="overflow-x-auto rounded-2xl shadow-lg border border-gray-200">
