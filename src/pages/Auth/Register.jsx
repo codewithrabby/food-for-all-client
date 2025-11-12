@@ -50,65 +50,81 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100 px-4">
       <Toaster />
-      <div className="max-w-md w-full bg-white p-8 rounded shadow">
-        <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+        <h2 className="text-3xl font-bold text-center text-emerald-700 mb-6">
+          Create an Account
+        </h2>
+
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="text"
-            placeholder="Name"
+            placeholder="Full Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="border px-4 py-2 rounded"
+            className="w-full border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none transition"
             required
           />
+
           <input
             type="email"
-            placeholder="Email"
+            placeholder="Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="border px-4 py-2 rounded"
+            className="w-full border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none transition"
             required
           />
+
           <input
             type="text"
-            placeholder="Photo URL"
+            placeholder="Photo URL (optional)"
             value={photoURL}
             onChange={(e) => setPhotoURL(e.target.value)}
-            className="border px-4 py-2 rounded"
+            className="w-full border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none transition"
           />
+
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Create Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="border px-4 py-2 rounded"
+            className="w-full border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none transition"
             required
           />
-          {error && <p className="text-red-600">{error}</p>}
+
+          {error && <p className="text-red-600 text-center">{error}</p>}
+
           <button
             type="submit"
-            className="bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
+            className="bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-all shadow-sm hover:shadow-md cursor-pointer"
           >
             Register
           </button>
         </form>
 
-        <div className="my-4 flex items-center justify-center gap-2 text-gray-500">
-          <span>or</span>
+        <div className="flex items-center my-6">
+          <div className="flex-grow h-px bg-gray-300"></div>
+          <span className="px-3 text-gray-500 text-sm">OR</span>
+          <div className="flex-grow h-px bg-gray-300"></div>
         </div>
 
+        {/* Google Register */}
         <button
           onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center gap-2 border py-2 rounded hover:bg-gray-100 transition"
+          className="w-full flex items-center justify-center gap-3 border py-3 rounded-lg text-gray-700 font-medium hover:bg-emerald-50 transition-all shadow-sm hover:shadow-md cursor-pointer"
         >
-          <FaGoogle /> Register with Google
+          <FaGoogle className="text-green-600 text-lg" />
+          Register with Google
         </button>
 
-        <p className="mt-4 text-center text-gray-600">
+        {/* Login Link */}
+        <p className="mt-6 text-center text-gray-600">
           Already have an account?{" "}
-          <Link to="/login" className="text-green-600 hover:underline">
+          <Link
+            to="/login"
+            className="text-emerald-600 font-medium hover:underline"
+          >
             Login
           </Link>
         </p>
