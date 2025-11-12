@@ -23,7 +23,7 @@ const MyFoodRequests = () => {
 
   return (
     <section className="max-w-6xl mx-auto px-4 py-12">
-      <h2 className="text-4xl font-extrabold mb-10 text-center text-gray-900">
+      <h2 className="text-4xl font-bold mb-10 text-center text-gray-900">
         My Food Requests
       </h2>
 
