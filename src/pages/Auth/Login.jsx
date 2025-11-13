@@ -6,8 +6,10 @@ import { FaGoogle } from "react-icons/fa";
 
 const Login = () => {
   const { loginUser, googleLogin } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const location = useLocation();
+
   const from = location.state?.from?.pathname || "/";
 
   const [email, setEmail] = useState("");
@@ -28,6 +30,7 @@ const Login = () => {
     }
   };
 
+  // Google login
   const handleGoogleLogin = async () => {
     try {
       await googleLogin();
@@ -46,7 +49,7 @@ const Login = () => {
           Welcome Back
         </h2>
 
-        {/* Form */}
+        {/* Login Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
             <input
@@ -70,12 +73,12 @@ const Login = () => {
             />
           </div>
 
+          {/* Show error if login fails */}
           {error && <p className="text-red-600 text-center">{error}</p>}
 
           <button
             type="submit"
-            className="bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-all shadow-sm hover:shadow-md cursor-pointer
-"
+            className="bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-all shadow-sm hover:shadow-md cursor-pointer"
           >
             Login
           </button>
@@ -90,8 +93,7 @@ const Login = () => {
         {/* Google Login */}
         <button
           onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center gap-3 border py-3 rounded-lg text-gray-700 font-medium hover:bg-emerald-50 transition-all shadow-sm hover:shadow-md cursor-pointer
-"
+          className="w-full flex items-center justify-center gap-3 border py-3 rounded-lg text-gray-700 font-medium hover:bg-emerald-50 transition-all shadow-sm hover:shadow-md cursor-pointer"
         >
           <FaGoogle className="text-green-600 text-lg" />
           Continue with Google
