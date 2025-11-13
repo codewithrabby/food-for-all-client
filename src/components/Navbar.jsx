@@ -1,3 +1,4 @@
+// ✅ Importing necessary dependencies
 import { useState, useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
@@ -6,67 +7,16 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  // Logout handler
   const handleLogout = async () => {
     await logOut();
     setDropdownOpen(false);
     setMenuOpen(false);
   };
-
-  const navLinks = (
-    <>
-      <li>
-        <NavLink
-          to="/available-foods"
-          className={({ isActive }) =>
-            isActive
-              ? "font-semibold text-green-700 border-b-2 border-green-600"
-              : "hover:text-green-600 transition"
-          }
-        >
-          Available Foods
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="/add-food"
-          className={({ isActive }) =>
-            isActive
-              ? "font-semibold text-green-700 border-b-2 border-green-600"
-              : "hover:text-green-600 transition"
-          }
-        >
-          Add Food
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="/manage-my-foods"
-          className={({ isActive }) =>
-            isActive
-              ? "font-semibold text-green-700 border-b-2 border-green-600"
-              : "hover:text-green-600 transition"
-          }
-        >
-          Manage My Foods
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="/my-food-requests"
-          className={({ isActive }) =>
-            isActive
-              ? "font-semibold text-green-700 border-b-2 border-green-600"
-              : "hover:text-green-600 transition"
-          }
-        >
-          My Food Requests
-        </NavLink>
-      </li>
-    </>
-  );
 
   return (
     <motion.nav
@@ -76,6 +26,7 @@ const Navbar = () => {
       className="bg-white shadow-md sticky top-0 z-50"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+        {/*Logo section*/}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
@@ -106,9 +57,64 @@ const Navbar = () => {
               Home
             </NavLink>
           </li>
-          {user && navLinks}
+
+          <li>
+            <NavLink
+              to="/available-foods"
+              className={({ isActive }) =>
+                isActive
+                  ? "font-semibold text-green-700 border-b-2 border-green-600"
+                  : "hover:text-green-600 transition"
+              }
+            >
+              Available Foods
+            </NavLink>
+          </li>
+
+          {/* Visible if user is logged in */}
+          {user && (
+            <>
+              <li>
+                <NavLink
+                  to="/add-food"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "font-semibold text-green-700 border-b-2 border-green-600"
+                      : "hover:text-green-600 transition"
+                  }
+                >
+                  Add Food
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/manage-my-foods"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "font-semibold text-green-700 border-b-2 border-green-600"
+                      : "hover:text-green-600 transition"
+                  }
+                >
+                  Manage My Foods
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/my-food-requests"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "font-semibold text-green-700 border-b-2 border-green-600"
+                      : "hover:text-green-600 transition"
+                  }
+                >
+                  My Food Requests
+                </NavLink>
+              </li>
+            </>
+          )}
         </ul>
 
+        {/* Right side (Login button) */}
         <div className="hidden md:flex items-center gap-4">
           {!user ? (
             <Link
@@ -132,6 +138,7 @@ const Navbar = () => {
                   className="w-10 h-10 rounded-full border-2 border-blue-400 hover:border-blue-600 transition"
                 />
               </motion.button>
+
               <AnimatePresence>
                 {dropdownOpen && (
                   <motion.div
@@ -146,9 +153,33 @@ const Navbar = () => {
                     </p>
 
                     <ul className="flex flex-col gap-2 px-4 py-2 text-gray-700">
-                      {navLinks}
+                      <li>
+                        <NavLink
+                          to="/add-food"
+                          className="hover:text-green-600 transition"
+                        >
+                          Add Food
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/manage-my-foods"
+                          className="hover:text-green-600 transition"
+                        >
+                          Manage My Foods
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/my-food-requests"
+                          className="hover:text-green-600 transition"
+                        >
+                          My Food Requests
+                        </NavLink>
+                      </li>
                     </ul>
 
+                    {/* Logout button */}
                     <button
                       onClick={handleLogout}
                       className="w-full text-left px-4 py-2 mt-1 hover:bg-red-50 text-red-600 font-semibold transition"
@@ -162,6 +193,7 @@ const Navbar = () => {
           )}
         </div>
 
+        {/* Mobile menu button */}
         <div className="md:hidden">
           <button onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? (
@@ -173,6 +205,7 @@ const Navbar = () => {
         </div>
       </div>
 
+      {/* Mobile menu section */}
       <AnimatePresence>
         {menuOpen && (
           <motion.ul
@@ -182,14 +215,43 @@ const Navbar = () => {
             transition={{ duration: 0.3 }}
             className="md:hidden bg-white px-4 py-4 flex flex-col gap-3 border-t"
           >
-            <NavLink to="/" className="hover:text-blue-600 transition">
+            <NavLink to="/" className="hover:text-green-600 transition">
               Home
             </NavLink>
-            {user && navLinks}
+            <NavLink
+              to="/available-foods"
+              className="hover:text-green-600 transition"
+            >
+              Available Foods
+            </NavLink>
+
+            {user && (
+              <>
+                <NavLink
+                  to="/add-food"
+                  className="hover:text-green-600 transition"
+                >
+                  Add Food
+                </NavLink>
+                <NavLink
+                  to="/manage-my-foods"
+                  className="hover:text-green-600 transition"
+                >
+                  Manage My Foods
+                </NavLink>
+                <NavLink
+                  to="/my-food-requests"
+                  className="hover:text-green-600 transition"
+                >
+                  My Food Requests
+                </NavLink>
+              </>
+            )}
+
             {!user ? (
               <Link
                 to="/login"
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-center"
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-center"
                 onClick={() => setMenuOpen(false)}
               >
                 Login
